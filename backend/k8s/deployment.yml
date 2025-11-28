@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      containers:
+        - name: laravel
+          image: your-dockerhub/laravel:latest
+          ports:
+            - containerPort: 9000
+          env:
+            - name: DB_HOST
+              value: mysql
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              value: root

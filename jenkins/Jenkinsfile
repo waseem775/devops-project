@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Backend') {
+            steps {
+                sh 'docker build -t your-dockerhub/laravel:latest ./backend'
+            }
+        }
+        stage('Build Frontend') {
+            steps {
+                sh 'docker build -t your-dockerhub/react:latest ./frontend'
+            }
+        }
+        stage('Push Images') {
+            steps {
+                sh 'docker push your-dockerhub/laravel:latest'
+                sh 'docker push your-dockerhub/react:latest'
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f backend/k8s/deployment.yml'
+                sh 'kubectl apply -f frontend/k8s/deployment.yml'
+                sh 'kubectl apply -f database/deployment.yml'
+	    }
+        
+         } 
+   
+     } 
+ 
+}		 
+
